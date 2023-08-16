@@ -1,3 +1,5 @@
-void init() {
-    
+extern "C" {
+    void init(void) {
+        //init
+    }
 }

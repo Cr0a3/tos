@@ -16,10 +16,13 @@ define DEFAULT_VAR =
 endef
 
 # It is highly recommended to use a custom built cross toolchain to build a kernel.
-# We are only using "cc" as a placeholder here. It may work by using
+# We are only using "gcc" as a placeholder here. It may work by using
 # the host system's toolchain, but this is not guaranteed.
-override DEFAULT_CC := cc
+override DEFAULT_CC := gcc
 $(eval $(call DEFAULT_VAR,CC,$(DEFAULT_CC)))
+
+override DEFAULT_CPP := g++
+$(eval $(call DEFAULT_VAR,CPP,$(DEFAULT_CPP)))
 
 # Same thing for "ld" (the linker).
 override DEFAULT_LD := ld
@@ -34,7 +37,7 @@ override DEFAULT_CPPFLAGS :=
 $(eval $(call DEFAULT_VAR,CPPFLAGS,$(DEFAULT_CPPFLAGS)))
 
 # User controllable nasm flags.
-override DEFAULT_NASMFLAGS := -F dwarf -g
+override DEFAULT_NASMFLAGS := -F dwarf 
 $(eval $(call DEFAULT_VAR,NASMFLAGS,$(DEFAULT_NASMFLAGS)))
 
 # User controllable linker flags. We set none by default.
@@ -45,7 +48,6 @@ $(eval $(call DEFAULT_VAR,LDFLAGS,$(DEFAULT_LDFLAGS)))
 override CFLAGS += \
     -Wall \
     -Wextra \
-    -std=gnu11 \
     -ffreestanding \
     -fno-stack-protector \
     -fno-stack-check \
@@ -86,10 +88,11 @@ override NASMFLAGS += \
 # Use "find" to glob all *.c, *.S, and *.asm files in the tree and obtain the
 # object and header dependency file names.
 override CFILES := $(shell find -L . -type f -name '*.c')
+override CPPFILES := $(shell find -L . -type f -name '*.cpp')
 override ASFILES := $(shell find -L . -type f -name '*.S')
 override NASMFILES := $(shell find -L . -type f -name '*.asm')
-override OBJ := $(CFILES:.c=.c.o) $(ASFILES:.S=.S.o) $(NASMFILES:.asm=.asm.o)
-override HEADER_DEPS := $(CFILES:.c=.c.d) $(ASFILES:.S=.S.d)
+override OBJ := $(CFILES:.c=.c.o) $(CPPFILES:.cpp=.cpp.o) $(ASFILES:.S=.S.o) $(NASMFILES:.asm=.asm.o)
+override HEADER_DEPS := $(CFILES:.c=.c.d) $(CPPFILES:.cpp=.cpp.d) $(ASFILES:.S=.S.d)
 
 # Default target.
 .PHONY: all
@@ -107,11 +110,15 @@ $(KERNEL): $(OBJ)
 
 # Compilation rules for *.c files.
 %.c.o: %.c limine.h
-	@$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
+	@$(CC) -std=gnu11 $(CPPFLAGS) -c $< -o $@
+
+# Compilation rules for *.cpp files
+%.cpp.o: %.cpp limine.h
+	@$(CPP) $(CFLAGS) $(CPPFLAGS) -c $< -o $@ -std=c++17
 
 # Compilation rules for *.S files.
 %.S.o: %.S limine.h
-	@$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
+	@$(CC) -std=gnu11 $(CPPFLAGS) -c $< -o $@
 
 # Compilation rules for *.asm (nasm) files.
 %.asm.o: %.asm

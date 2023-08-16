@@ -1,7 +1,7 @@
 # Nuke built-in rules and variables.
 override MAKEFLAGS += -rR
 
-override IMAGE_NAME := barebones
+override IMAGE_NAME := tof
 
 # Convenience macro to reliably declare user overridable variables.
 define DEFAULT_VAR =
@@ -14,7 +14,7 @@ define DEFAULT_VAR =
 endef
 
 # Compiler for building the 'limine' executable for the host.
-override DEFAULT_HOST_CC := cc
+override DEFAULT_HOST_CC := gcc
 $(eval $(call DEFAULT_VAR,HOST_CC,$(DEFAULT_HOST_CC)))
 
 .PHONY: all
