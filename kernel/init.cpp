@@ -1,8 +1,7 @@
-#include <drivers/ioDriver.hpp>
+#include <drivers/GraphicsDriver.hpp>
 
 extern "C" {
     void init(void) {
-        //init
-        IoDriver.outb(0xE9, 97);
+        GraphicsDriver.init();
     }
 }

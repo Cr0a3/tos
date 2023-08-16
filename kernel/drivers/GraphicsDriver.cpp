@@ -1,5 +1,6 @@
 #include <drivers/GraphicsDriver.hpp>
 #include <panic.hpp>
+#include <stddef.h>
 
 static volatile struct limine_framebuffer_request framebuffer_request = {
     .id = LIMINE_FRAMEBUFFER_REQUEST,
@@ -10,7 +11,7 @@ graphicsDriver::graphicsDriver() {}
 
 void graphicsDriver::putPixel(int x, int y, long color) {
     uint32_t *fb_ptr = reinterpret_cast<uint32_t*>(this->framebuf.address);
-    fb_ptr[y * (this->getPitch() / x) + y] = 0xffffff;
+    fb_ptr[y * (this->getPitch() / 4) + x] = color;
 }
 
 void graphicsDriver::init() {

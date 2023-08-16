@@ -5,9 +5,12 @@ extern "C" {
 }
 
 #include <drivers/GraphicsDriver.hpp>
+#include <panic.hpp>
 
 extern "C" {
     void main(void) {
-        GraphicsDriver.putPixel(10, 10, 0xFFFFFFFF);
+        for (size_t i = 0; i < 100; i++) {
+            GraphicsDriver.putPixel(i, i, 0xFFFFFFFF);
+        }
     }
 }
