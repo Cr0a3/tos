@@ -5,5 +5,6 @@ extern "C" {
     void init(void) {
         GraphicsDriver.init();
         SerialDriver.init();
+        SerialDriver.send("Init completed\n");
     }
 }

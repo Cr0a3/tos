@@ -32,6 +32,14 @@ void serialDriver::send(char data) {
     IoDriver.outb(COM1, data);
 }
 
+void serialDriver::send(const char* data) {
+    size_t i = 0;
+    while (data[i] != '\0') {
+        this->send(data[i]);
+        i++;
+    }
+}
+
 bool transmitEmpy() {
    return IoDriver.inb(COM1 + 5) & 0x20;
 }

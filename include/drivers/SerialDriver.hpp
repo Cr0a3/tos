@@ -17,6 +17,7 @@ class serialDriver {
 
         char recive();
         void send(char data);
+        void send(const char* data);
 
         bool transmitEmpy();
         bool recived();
