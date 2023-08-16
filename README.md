@@ -1,4 +1,6 @@
 # tos
+[![Makefile CI](https://github.com/Toni-Graphics/tos/actions/workflows/makefile.yml/badge.svg)](https://github.com/Toni-Graphics/tos/actions/workflows/makefile.yml)
+
 A simple x86_64 os written in C and C++ wich uses the limine bootloader.
 
 ### Building

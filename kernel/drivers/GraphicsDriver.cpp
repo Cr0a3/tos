@@ -1,5 +1,5 @@
 #include <drivers/GraphicsDriver.hpp>
-#include <drivers/panic.hpp>
+#include <panic.hpp>
 
 static volatile struct limine_framebuffer_request framebuffer_request = {
     .id = LIMINE_FRAMEBUFFER_REQUEST,
