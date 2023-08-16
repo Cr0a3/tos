@@ -87,6 +87,13 @@ $(IMAGE_NAME).hdd: limine kernel
 	sudo losetup -d `cat loopback_dev`
 	rm -rf loopback_dev img_mount
 
+install:
+	@apt update
+	@apt upgrade -y
+	@apt install make nasm gcc  -y
+	@apt install qemu-system qemu -y
+	@apt install xorriso -y
+
 .PHONY: clean
 clean:
 	rm -rf iso_root $(IMAGE_NAME).iso $(IMAGE_NAME).hdd
