@@ -5,6 +5,7 @@ extern "C" {
 }
 
 #include <drivers/GraphicsDriver.hpp>
+#include <drivers/SerialDriver.hpp>
 #include <panic.hpp>
 
 extern "C" {
@@ -12,6 +13,6 @@ extern "C" {
         for (size_t i = 0; i < 100; i++) {
             GraphicsDriver.putPixel(i, i, 0xFFFFFFFF);
         }
-        panic("exit");
+        SerialDriver.send('a');
     }
 }
