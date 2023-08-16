@@ -33,7 +33,7 @@ override DEFAULT_CFLAGS := -O3 -pipe -I../include
 $(eval $(call DEFAULT_VAR,CFLAGS,$(DEFAULT_CFLAGS)))
 
 # User controllable C preprocessor flags. We set none by default.
-override DEFAULT_CPPFLAGS :=
+override DEFAULT_CPPFLAGS := -I../include
 $(eval $(call DEFAULT_VAR,CPPFLAGS,$(DEFAULT_CPPFLAGS)))
 
 # User controllable nasm flags.
@@ -99,7 +99,7 @@ override HEADER_DEPS := $(CFILES:.c=.c.d) $(CPPFILES:.cpp=.cpp.d) $(ASFILES:.S=.
 all: $(KERNEL)
 
 limine.h:
-	@curl -Lo $@ https://github.com/limine-bootloader/limine/raw/trunk/limine.h
+	@curl -Lo ../include/$@ https://github.com/limine-bootloader/limine/raw/trunk/limine.h
 
 # Link rules for the final kernel executable.
 $(KERNEL): $(OBJ)
@@ -110,7 +110,7 @@ $(KERNEL): $(OBJ)
 
 # Compilation rules for *.c files.
 %.c.o: %.c limine.h
-	@$(CC) -std=gnu11 $(CPPFLAGS) -c $< -o $@
+	@$(CC) -std=gnu11 $(CPPFLAGS) -c $< -o $@ -I../include/
 
 # Compilation rules for *.cpp files
 %.cpp.o: %.cpp limine.h
