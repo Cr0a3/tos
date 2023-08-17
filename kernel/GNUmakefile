@@ -114,7 +114,7 @@ $(KERNEL): $(OBJ)
 
 # Compilation rules for *.cpp files
 %.cpp.o: %.cpp limine.h
-	@$(CPP) $(CFLAGS) $(CPPFLAGS) -c $< -o $@ -std=c++17
+	@$(CPP) $(CFLAGS) $(CPPFLAGS) -c $< -o $@ -std=c++11
 
 # Compilation rules for *.S files.
 %.S.o: %.S limine.h

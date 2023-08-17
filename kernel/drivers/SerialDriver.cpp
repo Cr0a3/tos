@@ -1,4 +1,3 @@
-#pragma once
 #include <drivers/SerialDriver.hpp>
 #include <drivers/ioDriver.hpp>
 #include <panic.hpp>
