@@ -7,8 +7,7 @@ extern "C" {
     void init(void) {
         GraphicsDriver.init();
         SerialDriver.init();
-        SerialDriver.send("Init acpi");
         AcpiDriver.init();
-        SerialDriver.send("Init completed");
+        
     }
 }
