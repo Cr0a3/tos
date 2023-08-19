@@ -49,6 +49,9 @@ void serialDriver::init() {
     }
 
     IoDriver.outb(COM2 + 4, 0x0F);
+#ifdef DEBUG
+    Logger.sucess("inited serial driver");
+#endif
 }
 
 char serialDriver::recive(uint8_t port) {

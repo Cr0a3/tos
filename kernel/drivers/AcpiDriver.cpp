@@ -1,6 +1,6 @@
 #include <drivers/AcpiDriver.hpp>
 #include <drivers/IoDriver.hpp>
-#include <drivers/SerialDriver.hpp>
+#include <Logger.hpp>
 #include <panic.hpp>
 
 extern "C" {
@@ -38,7 +38,7 @@ void acpiDriver::getRSDT() {
     RSDP_t* rsdp = (RSDP_t*)response->address;
 
     if (rsdp->Revision == 0) {  // acpi version 1.0
-        
+        Logger.warning("found acpi version 1.0");
 
         //make test
 
@@ -102,6 +102,9 @@ void acpiDriver::init() {
     // enabiling acpi
     //IoDriver.outb(this->fadt->SMI_CommandPort, this->fadt->AcpiEnable); // stops
     //while (IoDriver.inw(this->fadt->PM1aControlBlock) & 1 == 0);
+#ifdef DEBUG
+    Logger.sucess("inited acpi driver");
+#endif
 }
 
 void acpiDriver::shutdown() {

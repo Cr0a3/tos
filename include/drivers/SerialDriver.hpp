@@ -5,6 +5,7 @@
 
 #include <stdint.h>
 #include <stddef.h>
+#include <def.h>
 #include <drivers/driver.hpp>
 
 class serialDriver : Driver {

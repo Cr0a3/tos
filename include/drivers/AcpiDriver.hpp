@@ -1,5 +1,6 @@
 #pragma once
 #include <stdint.h>
+#include <def.h>
 #include <drivers/driver.hpp>
 
 struct ACPISDTHeader {

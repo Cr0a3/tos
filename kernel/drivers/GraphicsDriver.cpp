@@ -2,6 +2,10 @@
 #include <panic.hpp>
 #include <stddef.h>
 
+#ifdef DEBUG
+#include <Logger.hpp>
+#endif
+
 static volatile struct limine_framebuffer_request framebuffer_request = {
     .id = LIMINE_FRAMEBUFFER_REQUEST,
     .revision = 0
@@ -24,6 +28,9 @@ void graphicsDriver::init() {
     struct limine_framebuffer *framebuffer = framebuffer_request.response->framebuffers[0];
 
     this->framebuf = *framebuffer;
+#ifdef DEBUG
+    Logger.sucess("inited graphics driver");
+#endif
 
 }
 

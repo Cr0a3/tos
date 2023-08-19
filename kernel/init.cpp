@@ -10,6 +10,8 @@ extern "C" {
         SerialDriver.init();
         AcpiDriver.init();
         
-        Logger.info("finished init");
+#ifdef DEBUG
+        Logger.sucess("inited everything");
+#endif
     }
 }

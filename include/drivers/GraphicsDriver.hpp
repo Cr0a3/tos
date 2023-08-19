@@ -1,5 +1,7 @@
 #pragma once
 #include <drivers/driver.hpp>
+#include <def.h>
+
 extern "C" {
     #include <limine.h>
 }
