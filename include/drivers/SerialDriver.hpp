@@ -3,6 +3,8 @@
 #define COM1 0x3F8
 #define COM2 0x2F8
 
+#include <stdint.h>
+#include <stddef.h>
 #include <drivers/driver.hpp>
 
 class serialDriver : Driver {
@@ -11,12 +13,13 @@ class serialDriver : Driver {
         serialDriver();
         void init();
 
-        char recive();
-        void send(char data);
-        void send(const char* data);
+        char recive(uint8_t port);
+        void send(uint8_t port, char data);
+        void send(uint8_t port, char* data);
+        void send(uint8_t port, char* data, size_t num);
 
-        bool transmitEmpy();
-        bool recived();
+        bool transmitEmpy(uint8_t port);
+        bool recived(uint8_t port);
 };
 
 extern serialDriver SerialDriver;
