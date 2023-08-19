@@ -1,9 +1,10 @@
 #pragma once
+#include <drivers/driver.hpp>
 extern "C" {
     #include <limine.h>
 }
 
-class graphicsDriver {
+class graphicsDriver : Driver {
 private:
     limine_framebuffer framebuf;
 public:

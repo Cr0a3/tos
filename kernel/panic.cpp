@@ -1,5 +1,5 @@
 #include <panic.hpp>
-#include <drivers/E9Driver.hpp>
+#include <Logger.hpp>
 
 void hcf() {
     asm ("cli");
@@ -8,7 +8,7 @@ void hcf() {
     }
 }
 
-void panic(const char* str) {
-    E9Driver.send( *str );
+void panic(char* str) {
+    Logger.error(str);
     hcf();
 }

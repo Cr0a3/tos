@@ -1,5 +1,6 @@
 #pragma once
 #include <stdint.h>
+#include <drivers/driver.hpp>
 
 struct ACPISDTHeader {
   char Signature[4];
@@ -128,7 +129,7 @@ struct FADT
 
 
 
-class acpiDriver {
+class acpiDriver : Driver {
 private:
 	void getRSDT();
 	void getTables();

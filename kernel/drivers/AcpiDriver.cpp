@@ -1,5 +1,5 @@
 #include <drivers/AcpiDriver.hpp>
-#include <drivers/ioDriver.hpp>
+#include <drivers/IoDriver.hpp>
 #include <drivers/SerialDriver.hpp>
 #include <panic.hpp>
 
@@ -38,9 +38,7 @@ void acpiDriver::getRSDT() {
     RSDP_t* rsdp = (RSDP_t*)response->address;
 
     if (rsdp->Revision == 0) {  // acpi version 1.0
-    #ifdef debug
-        SerialDriver.send("found acpi 1.0");
-    #endif
+        
 
         //make test
 
@@ -55,9 +53,6 @@ void acpiDriver::getRSDT() {
     }
 
     else {
-    #ifdef debug
-        SerialDriver.send("found axpi > 1.0");
-    #endif
 
         XSDP_t* xsdp = (XSDP_t*)response->address;
 
@@ -79,9 +74,6 @@ void acpiDriver::getRSDT() {
 void acpiDriver::getTables() {
     RSDT* rsdt = (RSDT*)this->rsdp->RsdtAddress;
     int entries = (rsdt->h.Length - sizeof(rsdt->h)) / 4;
-    SerialDriver.send(" - Found ");
-    SerialDriver.send(entries + '0');
-    SerialDriver.send(" entries - ");
 
     void* fadt = NULL;
     void* madt = NULL;
@@ -108,8 +100,8 @@ void acpiDriver::init() {
     this->getFADT();
 
     // enabiling acpi
-    IoDriver.outb(this->fadt->SMI_CommandPort, this->fadt->AcpiEnable); // stops
-    while (IoDriver.inw(this->fadt->PM1aControlBlock) & 1 == 0);
+    //IoDriver.outb(this->fadt->SMI_CommandPort, this->fadt->AcpiEnable); // stops
+    //while (IoDriver.inw(this->fadt->PM1aControlBlock) & 1 == 0);
 }
 
 void acpiDriver::shutdown() {

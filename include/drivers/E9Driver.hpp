@@ -1,7 +1,8 @@
 #pragma once
 #include <stddef.h>
+#include <drivers/driver.hpp>
 
-class e9Driver {
+class e9Driver : Driver {
 public:
     e9Driver();
 

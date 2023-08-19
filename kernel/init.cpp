@@ -2,6 +2,7 @@
 #include <drivers/SerialDriver.hpp>
 #include <drivers/AcpiDriver.hpp>
 #include <drivers/E9Driver.hpp>
+#include <Logger.hpp>
 
 extern "C" {
     void init(void) {
@@ -9,5 +10,6 @@ extern "C" {
         SerialDriver.init();
         AcpiDriver.init();
         
+        Logger.info("finished init");
     }
 }
