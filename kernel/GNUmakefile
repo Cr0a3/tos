@@ -29,7 +29,7 @@ override DEFAULT_LD := ld
 $(eval $(call DEFAULT_VAR,LD,$(DEFAULT_LD)))
 
 # User controllable C flags.
-override DEFAULT_CFLAGS := -O3 -pipe -I../include
+override DEFAULT_CFLAGS := -O0 -pipe -I../include
 $(eval $(call DEFAULT_VAR,CFLAGS,$(DEFAULT_CFLAGS)))
 
 # User controllable C preprocessor flags. We set none by default.
@@ -60,14 +60,16 @@ override CFLAGS += \
     -mno-mmx \
     -mno-sse \
     -mno-sse2 \
-    -mno-red-zone
+    -mno-red-zone \
+    -g
 
 # Internal C preprocessor flags that should not be changed by the user.
 override CPPFLAGS := \
     -I. \
     $(CPPFLAGS) \
     -MMD \
-    -MP
+    -MP \
+    -g
 
 # Internal linker flags that should not be changed by the user.
 # i removed  -pie
@@ -78,7 +80,8 @@ override LDFLAGS += \
     --no-dynamic-linker \
     -z text \
     -z max-page-size=0x1000 \
-    -T linker.ld
+    -T linker.ld \
+    -g
 
 # Internal nasm flags that should not be changed by the user.
 override NASMFLAGS += \
