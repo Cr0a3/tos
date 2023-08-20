@@ -1,11 +1,13 @@
 #include <drivers/GraphicsDriver.hpp>
 #include <drivers/SerialDriver.hpp>
 #include <drivers/AcpiDriver.hpp>
-#include <drivers/E9Driver.hpp>
+#include <drivers/GdtDriver.hpp>
 #include <Logger.hpp>
 
 extern "C" {
     void init(void) {
+        GdtDriver.init();
+
         GraphicsDriver.init();
         SerialDriver.init();
         AcpiDriver.init();

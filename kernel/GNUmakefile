@@ -41,7 +41,7 @@ override DEFAULT_NASMFLAGS := -F dwarf
 $(eval $(call DEFAULT_VAR,NASMFLAGS,$(DEFAULT_NASMFLAGS)))
 
 # User controllable linker flags. We set none by default.
-override DEFAULT_LDFLAGS :=
+override DEFAULT_LDFLAGS := 
 $(eval $(call DEFAULT_VAR,LDFLAGS,$(DEFAULT_LDFLAGS)))
 
 # Internal C flags that should not be changed by the user.
@@ -70,11 +70,11 @@ override CPPFLAGS := \
     -MP
 
 # Internal linker flags that should not be changed by the user.
+# i removed  -pie
 override LDFLAGS += \
     -m elf_x86_64 \
     -nostdlib \
     -static \
-    -pie \
     --no-dynamic-linker \
     -z text \
     -z max-page-size=0x1000 \

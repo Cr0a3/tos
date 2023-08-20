@@ -1,7 +1,7 @@
 # Nuke built-in rules and variables.
 override MAKEFLAGS += -rR
 
-override IMAGE_NAME := tof
+override IMAGE_NAME := tos
 
 # Convenience macro to reliably declare user overridable variables.
 define DEFAULT_VAR =
@@ -88,7 +88,7 @@ $(IMAGE_NAME).hdd: limine kernel
 	@rm -rf loopback_dev img_mount
 
 install:
-	@apt update
+	@apt update -y
 	@apt upgrade -y
 	@apt install make nasm gcc  -y
 	@apt install qemu-system qemu -y

@@ -100,8 +100,7 @@ void acpiDriver::init() {
     this->getFADT();
 
     // enabiling acpi
-    //IoDriver.outb(this->fadt->SMI_CommandPort, this->fadt->AcpiEnable); // stops
-    //while (IoDriver.inw(this->fadt->PM1aControlBlock) & 1 == 0);
+    // do not work, because of this no code here
 #ifdef DEBUG
     Logger.sucess("inited acpi driver");
 #endif
