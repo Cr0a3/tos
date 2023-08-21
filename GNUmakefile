@@ -25,7 +25,7 @@ all-hdd: $(IMAGE_NAME).hdd
 
 .PHONY: run
 run: $(IMAGE_NAME).iso
-	@qemu-system-x86_64 -M q35 -m 2G -cdrom $(IMAGE_NAME).iso -boot d  -debugcon stdio -s -S -d int -D QEMU.log -M smm=off
+	@qemu-system-x86_64 -M q35 -m 2G -cdrom $(IMAGE_NAME).iso -boot d  -debugcon stdio
 
 .PHONY: run-uefi
 run-uefi: ovmf $(IMAGE_NAME).iso
@@ -65,6 +65,7 @@ $(IMAGE_NAME).iso: limine kernel
 		-efi-boot-part --efi-boot-image --protective-msdos-label \
 		iso_root -o $(IMAGE_NAME).iso
 	@./limine/limine bios-install $(IMAGE_NAME).iso
+	@rm -rf iso_root
 
 $(IMAGE_NAME).hdd: limine kernel
 	@rm -f $(IMAGE_NAME).hdd

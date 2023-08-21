@@ -2,6 +2,8 @@
 #include <stdint.h>
 #include <drivers/driver.hpp>
 
+#define NO_GDT_DECRIPTORS 5
+
 typedef struct GDT_ENTRY{
     uint16_t limit_low;
     uint16_t base_low;
