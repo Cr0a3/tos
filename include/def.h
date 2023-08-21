@@ -1,1 +1,3 @@
 #define DEBUG
+
+#define PIC
