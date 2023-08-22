@@ -110,6 +110,12 @@ void intDriver::init() {
 #endif
 }
 
+void end_interrupt(uint8_t num) {
+    if(num >= 0x28)
+        IoDriver.outb(0x20, 0x20);
+    IoDriver.outb(0xa0, 0x20);
+}
+
 extern "C" void ISR_ExceptionHandler(void) {
     panic("exception");
 }
