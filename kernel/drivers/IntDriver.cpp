@@ -111,9 +111,17 @@ void intDriver::init() {
 }
 
 void end_interrupt(uint8_t num) {
+#ifdef PIC
     if(num >= 0x28)
         IoDriver.outb(0x20, 0x20);
     IoDriver.outb(0xa0, 0x20);
+#else
+    panic("interrupt system just work with pic");
+#endif
+}
+
+extern "C" void ISR_irqHandler(void) {
+    panic("interupt");
 }
 
 extern "C" void ISR_ExceptionHandler(void) {
