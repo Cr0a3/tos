@@ -37,7 +37,8 @@ exceptionHandler:
     pop rax
     add rdi, 0x08
 
-    ret
+    sti
+    iret
 
 %macro EXCEPTION 1
   global exception%1
@@ -45,9 +46,7 @@ exceptionHandler:
     cli
     push byte 0
     push %1
-    call exceptionHandler
-    sti
-    iret
+    jmp exceptionHandler
 %endmacro
 
 EXCEPTION 0

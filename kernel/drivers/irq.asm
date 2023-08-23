@@ -41,7 +41,8 @@ interuptHandler:
     pop rax
     add rsp, 0x08
 
-    ret
+    sti
+    iret
 
 %macro IRQ 2
   global irq%1
@@ -49,9 +50,7 @@ interuptHandler:
     cli
     push byte 0
     push %2
-    call interuptHandler
-    sti
-    iret
+    jmp interuptHandler
 %endmacro
 
 IRQ 0, 32

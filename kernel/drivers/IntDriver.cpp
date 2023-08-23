@@ -10,19 +10,25 @@
     #include <Logger.hpp>
 #endif
 
-IDT idt[256];
-IDT_PTR idt_ptr;
+IDT_ENTRY g_idt[256];
+IDT_PTR g_idt_ptr;
+
+ISR g_ints[256];
 
 intDriver::intDriver() {}
 
 void intDriver::set_idtEntry(int index, uint64_t base, uint16_t seg_sel, uint8_t flags) {
-    IDT *entry = &idt[index];
+    IDT_ENTRY *entry = &g_idt[index];
 
     entry->base_low = base & 0xFFFFFFFF;
     entry->segment_selector = seg_sel;
     entry->zero = 0;
     entry->type = flags | 0x60;
     entry->base_high = (base >> 32) & 0xFFFFFFFF;
+}
+
+void intDriver::register_Handler(int num, ISR handler) {
+    g_ints[num] = handler;
 }
 
 void intDriver::init() {
@@ -46,8 +52,8 @@ void intDriver::init() {
     panic("interrupt system just work with pic");
 #endif
     // init idt_ptr
-    idt_ptr.limit = sizeof(idt) - 1;
-    idt_ptr.base_address = (uint64_t)&idt;
+    g_idt_ptr.limit = sizeof(g_idt) - 1;
+    g_idt_ptr.base_address = (uint64_t)&g_idt;
 
     //install entries
     this->set_idtEntry(0, (uint64_t)exception0, 0x08, 0x8E);
@@ -102,7 +108,7 @@ void intDriver::init() {
     this->set_idtEntry(47, (uint64_t)irq15, 0x08, 0x8E);
 
     //insall idt
-    asm volatile("lidt %0" : : "m"(idt_ptr));
+    asm volatile("lidt %0" : : "m"(g_idt_ptr));
     asm volatile("sti");
 
 #ifdef DEBUG
@@ -120,12 +126,32 @@ void end_interrupt(uint8_t num) {
 #endif
 }
 
-extern "C" void ISR_irqHandler(void) {
-    panic("interupt");
+void IrqHandler(REGISTERS regs) {
+    //handle interupt
+    if (g_ints[regs.int_no] != NULL) {
+        ISR handler = g_ints[regs.int_no];
+        handler(&regs);
+    }
+    //exit interupt
+    end_interrupt(regs.int_no);
 }
 
-extern "C" void ISR_ExceptionHandler(void) {
-    panic("exception");
+void ExceptionHandler(REGISTERS regs) {
+    if (regs.int_no < 32) {
+        panic("exception");
+        hcf();
+    }
+    else {
+        IrqHandler(regs);
+    }
+}
+
+extern "C" void ISR_irqHandler(REGISTERS regs) {
+    IrqHandler(regs);
+}
+
+extern "C" void ISR_ExceptionHandler(REGISTERS regs) {
+    ExceptionHandler(regs);
 }
 
 extern intDriver IntDriver = intDriver();
