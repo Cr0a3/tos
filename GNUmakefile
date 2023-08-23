@@ -49,12 +49,12 @@ limine:
 
 .PHONY: kernel
 kernel:
-	@$(MAKE) -C kernel
+	@$(MAKE) -C src
 
 $(IMAGE_NAME).iso: limine kernel
 	@rm -rf iso_root
 	@mkdir -p iso_root
-	@cp -v kernel/kernel.elf \
+	@cp -v src/kernel.elf \
 		limine.cfg limine/limine-bios.sys limine/limine-bios-cd.bin limine/limine-uefi-cd.bin iso_root/
 	@mkdir -p iso_root/EFI/BOOT
 	@cp -v limine/BOOTX64.EFI iso_root/EFI/BOOT/
@@ -97,9 +97,9 @@ install:
 .PHONY: clean
 clean:
 	@rm -rf iso_root $(IMAGE_NAME).iso $(IMAGE_NAME).hdd
-	@$(MAKE) -C kernel clean
+	@$(MAKE) -C src clean
 
 .PHONY: distclean
 distclean: clean
 	@rm -rf limine ovmf
-	@$(MAKE) -C kernel distclean
+	@$(MAKE) -C src distclean

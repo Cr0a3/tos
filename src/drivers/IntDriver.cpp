@@ -7,6 +7,8 @@
     #include <Logger.hpp>
 #endif
 
+extern "C" void load_idt(uint64_t ptr);
+
 IDT_ENTRY g_idt[256];
 IDT_PTR g_idt_ptr;
 
@@ -48,9 +50,6 @@ void intDriver::init() {
 #else
     panic("interrupt system just work with pic");
 #endif
-    // init idt_ptr
-    g_idt_ptr.limit = sizeof(g_idt) - 1;
-    g_idt_ptr.base_address = (uint64_t)&g_idt;
 
     //install entries
     this->set_idtEntry(0, (uint64_t)exception0, 0x08, 0x8E);
@@ -104,9 +103,13 @@ void intDriver::init() {
     this->set_idtEntry(46, (uint64_t)irq14, 0x08, 0x8E);
     this->set_idtEntry(47, (uint64_t)irq15, 0x08, 0x8E);
 
-    //insall idt
-    asm volatile("lidt %0" : : "m"(g_idt_ptr));
-    asm volatile("sti");
+    // init idt_ptr
+    g_idt_ptr.limit = sizeof(g_idt) - 1;
+    g_idt_ptr.base_address = (uint64_t)&g_idt;
+
+    //install idt
+    load_idt((uint64_t)&g_idt_ptr);
+    asm volatile ("sti");
 
 #ifdef DEBUG
     Logger.sucess("inited interupt system");

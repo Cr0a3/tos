@@ -13,5 +13,11 @@ extern "C" {
         for (size_t i = 0; i < 100; i++) {
             GraphicsDriver.putPixel(i, i, 0xFFFFFFFF);
         }
+
+        // raise division by zero error
+        asm volatile("\txorl %edx, %edx");
+        asm volatile("\tmovl $0x7b, %eax");
+        asm volatile("\tmovl $0, %ecx");
+        asm volatile("\tidivl %ecx");
     }
 }

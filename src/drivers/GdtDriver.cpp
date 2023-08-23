@@ -42,7 +42,6 @@ void gdtDriver::init() {
     this->set_gate(4, 0, 0xFFFFFFFF, 0xF2, 0xCF); // user data segment
 
     // install gdt
-    Logger.info("installing gdt");
     asm volatile("lgdt %0" : : "m"(gdt_ptr));
 
     asm volatile(
