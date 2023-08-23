@@ -1,10 +1,7 @@
 #include <drivers/IntDriver.hpp>
 #include <def.h>
 #include <panic.hpp>
-
-#ifdef PIC
-    #include <drivers/IoDriver.hpp>
-#endif
+#include <drivers/IoDriver.hpp>
 
 #ifdef DEBUG
     #include <Logger.hpp>
@@ -18,7 +15,7 @@ ISR g_ints[256];
 intDriver::intDriver() {}
 
 void intDriver::set_idtEntry(int index, uint64_t base, uint16_t seg_sel, uint8_t flags) {
-    IDT_ENTRY *entry = &g_idt[index];
+    IDT_ENTRY* entry = &g_idt[index];
 
     entry->base_low = base & 0xFFFFFFFF;
     entry->segment_selector = seg_sel;
@@ -126,7 +123,7 @@ void end_interrupt(uint8_t num) {
 #endif
 }
 
-void IrqHandler(REGISTERS regs) {
+static void IrqHandler(REGISTERS regs) {
     //handle interupt
     if (g_ints[regs.int_no] != NULL) {
         ISR handler = g_ints[regs.int_no];
@@ -136,7 +133,7 @@ void IrqHandler(REGISTERS regs) {
     end_interrupt(regs.int_no);
 }
 
-void ExceptionHandler(REGISTERS regs) {
+static void ExceptionHandler(REGISTERS regs) {
     if (regs.int_no < 32) {
         panic("exception");
         hcf();

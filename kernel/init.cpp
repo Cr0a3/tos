@@ -2,7 +2,7 @@
 #include <drivers/SerialDriver.hpp>
 #include <drivers/AcpiDriver.hpp>
 #include <drivers/GdtDriver.hpp>
-#include <drivers/IntDriver.cpp>
+#include <drivers/IntDriver.hpp>
 #include <Logger.hpp>
 
 extern "C" {
