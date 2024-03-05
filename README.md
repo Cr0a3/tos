@@ -8,6 +8,9 @@ When you want to build tos, you first need to install all nedded dependencys. Yo
 ```
 sudo make install
 ```
+
+Then you nee to go into the ``include/limine.h`` file and uncomment it.
+
 Then you can build the main os:
 ```
 make
