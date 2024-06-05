@@ -3,19 +3,6 @@
 #include <stdint.h>
 
 typedef struct {
-    uint32_t base_low;   
-    uint16_t segment_selector; 
-    uint8_t zero;              
-    uint8_t type;              
-    uint32_t base_high;        
-} __attribute__((packed)) IDT_ENTRY;
-
-typedef struct {
-    uint16_t limit;      
-    uint64_t base_address;
-} __attribute__((packed)) IDT_PTR;
-
-typedef struct {
     uint32_t ds;
     uint64_t rdi, rsi, rbp, rsp, rbx, rdx, rcx, rax;  
     uint32_t int_no, err_code;                        // interrupt number and error code
@@ -26,7 +13,7 @@ typedef void (*ISR)(REGISTERS *);
 
 class intDriver {
 private:
-    void set_idtEntry(int index, uint64_t base, uint16_t seg_sel, uint8_t flags);
+    void set_idtEntry(int index, uint64_t base);
 
 public:
 

@@ -61,7 +61,8 @@ override CFLAGS += \
     -mno-sse \
     -mno-sse2 \
     -mno-red-zone \
-    -g
+    -g \
+    -Wno-write-strings
 
 # Internal C preprocessor flags that should not be changed by the user.
 override CPPFLAGS := \

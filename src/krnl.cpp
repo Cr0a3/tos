@@ -6,6 +6,7 @@ extern "C" {
 
 #include <drivers/GraphicsDriver.hpp>
 #include <drivers/SerialDriver.hpp>
+#include <Logger.hpp>
 #include <panic.hpp>
 
 extern "C" {
@@ -14,10 +15,11 @@ extern "C" {
             GraphicsDriver.putPixel(i, i, 0xFFFFFFFF);
         }
 
-        // raise division by zero error
-        asm volatile("\txorl %edx, %edx");
-        asm volatile("\tmovl $0x7b, %eax");
-        asm volatile("\tmovl $0, %ecx");
-        asm volatile("\tidivl %ecx");
+        Logger.info("before interrupt");
+
+        // raise breakpoint exception
+        asm volatile("int $0x3");
+
+        Logger.log("back in kernel");
     }
 }
