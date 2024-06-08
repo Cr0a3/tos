@@ -5,6 +5,14 @@ section .text
     global interuptHandler
 
 interuptHandler:
+    push r15
+    push r14
+    push r13
+    push r12
+    push r11
+    push r10
+    push r9
+    push r8
     push rax
     push rbx
     push rcx
@@ -40,6 +48,14 @@ interuptHandler:
     pop rcx
     pop rbx
     pop rax
+    pop r15
+    pop r14
+    pop r13
+    pop r12
+    pop r11
+    pop r10
+    pop r9
+    pop r8
     add rsp, 0x08
 
     sti

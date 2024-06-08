@@ -4,7 +4,7 @@
 
 typedef struct {
     uint32_t ds;
-    uint64_t rdi, rsi, rbp, rsp, rbx, rdx, rcx, rax;  
+    uint64_t r15, r14, r13, r12, r11, r10, r9, r8, rdi, rsi, rbp, rsp, rbx, rdx, rcx, rax;
     uint32_t int_no, err_code;                        // interrupt number and error code
     uint32_t eip, cs, eflags, useresp, ss;            // pushed by the processor automatically
 } REGISTERS;

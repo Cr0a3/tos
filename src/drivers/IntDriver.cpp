@@ -183,6 +183,19 @@ static char *exceptions[] = {
 	"Alignment Check",
 	"Machine Check",
 	"SIMD Exception"
+    "Reserved",
+    "Reserved",
+    "Reserved",
+    "Reserved",
+    "Reserved",
+    "Reserved",
+    "Reserved",
+    "Reserved",
+    "Reserved",
+    "Reserved",
+    "Reserved",
+    "Reserved",
+    "Reserved",
 };
 
 static void ExceptionHandler(REGISTERS regs) {
@@ -205,6 +218,8 @@ extern "C" void ISR_ExceptionHandler(REGISTERS regs) {
 
 extern "C" void C_interruptHandler(REGISTERS regs) {
     //handle interupt
+
+    panic("intterupt");
 
     ISR handler = (ISR)g_ints[regs.int_no];
     handler(&regs);
