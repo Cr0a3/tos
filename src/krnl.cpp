@@ -18,8 +18,8 @@ extern "C" {
         Logger.info("before interrupt");
 
         // raise breakpoint exception
-        asm volatile("int $0x3");
+        //asm volatile("int $0x3");
 
-        Logger.log("back in kernel");
+        Logger.info("back in kernel");
     }
 }

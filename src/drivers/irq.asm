@@ -1,7 +1,8 @@
 bits 64
 
 section .text
-    extern ISR_irqHandler
+    extern C_interruptHandler
+    global interuptHandler
 
 interuptHandler:
     push rax
@@ -22,7 +23,7 @@ interuptHandler:
     mov gs, ax
 
     push rsp
-    call ISR_irqHandler
+    call C_interruptHandler
     pop rsp
 
     pop rbx             ; restore kernel data segment
