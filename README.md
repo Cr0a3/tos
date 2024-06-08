@@ -1,4 +1,4 @@
-# tos
+I'm# tos
 [![Makefile CI](https://github.com/Toni-Graphics/tos/actions/workflows/makefile.yml/badge.svg)](https://github.com/Toni-Graphics/tos/actions/workflows/makefile.yml)
 
 A simple x86_64 os written in C and C++ wich uses the limine bootloader.
@@ -39,4 +39,4 @@ This reposentory is under the MIT License. More information in the ```LICENSE```
 ### Countributing
 When you want to contribute, read the Contributing Guidlines, join my Discord server and send an DM to me (when i am online, you can find me as the owner).
 
-<a href="https://discord.gg/hAyAP5q8zV">Invitation to the discord server</a>
+<a href="https://discord.com/invite/26RxXg8qx3">Invitation to the discord server</a>
