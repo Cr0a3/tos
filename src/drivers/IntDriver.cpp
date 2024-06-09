@@ -142,6 +142,8 @@ void intDriver::init() {
     
     asm volatile( "lidt (%%rax)" : : "a"(&idtr));
 
+    asm volatile ("sti");
+
 #ifdef DEBUG
     Logger.sucess("inited interupt system");
 #endif
