@@ -7,6 +7,8 @@
     #include <Logger.hpp>
 #endif
 
+extern "C" void interuptHandler();
+
 typedef struct {
     uint16_t size;
     uint64_t offset;
@@ -32,6 +34,11 @@ static idtr_t idtr = {
 uint64_t g_ints[256];
 
 intDriver::intDriver() {}
+
+
+void syscall(REGISTERS regs) {
+    Logger.sucess("syscall");
+}
 
 void intDriver::set_idtEntry(int index, uint64_t adr) {
     g_ints[index] = adr;
@@ -97,6 +104,8 @@ void intDriver::init() {
     this->set_idtEntry(31, (uint64_t)exception31);
     this->set_idtEntry(128, (uint64_t)exception128);
 
+    this->set_idtEntry(80, (uint64_t)syscall);
+
     this->set_idtEntry(32, (uint64_t)irq0);
     this->set_idtEntry(33, (uint64_t)irq1);
     this->set_idtEntry(34, (uint64_t)irq2);
@@ -116,17 +125,22 @@ void intDriver::init() {
 
     //install idt
 	
+    uint64_t adr = (uint64_t)interuptHandler;
+
     for (int i = 0; i < 256; i++) {   
-        idt[i].offset = g_ints[i] & 0xffff;
+        idt[i].offset = adr & 0xffff;
         idt[i].segment = 0x8;
         idt[i].ist = 0;
         idt[i].flags = 0x8E;
-        idt[i].offset2 = (g_ints[i] >> 16) & 0xffff;
-        idt[i].offset3 = (g_ints[i] >> 32) & 0xffffffff;
+        idt[i].offset2 = (adr >> 16) & 0xffff;
+        idt[i].offset3 = (adr >> 32) & 0xffffffff;
+    }
+
+    if ( idtr.size < 4000 ) {
+        panic("to small");
     }
     
     asm volatile( "lidt (%%rax)" : : "a"(&idtr));
-    asm volatile("sti");
 
 #ifdef DEBUG
     Logger.sucess("inited interupt system");
@@ -144,13 +158,6 @@ void end_interrupt(uint8_t num) {
 }
 
 static void IrqHandler(REGISTERS regs) {
-    //handle interupt
-
-    ISR handler = (ISR)g_ints[regs.int_no];
-    handler(&regs);
-
-    //exit interupt
-    end_interrupt(regs.int_no);
 }
 
 
@@ -175,6 +182,19 @@ static char *exceptions[] = {
 	"Alignment Check",
 	"Machine Check",
 	"SIMD Exception"
+    "Reserved",
+    "Reserved",
+    "Reserved",
+    "Reserved",
+    "Reserved",
+    "Reserved",
+    "Reserved",
+    "Reserved",
+    "Reserved",
+    "Reserved",
+    "Reserved",
+    "Reserved",
+    "Reserved",
 };
 
 static void ExceptionHandler(REGISTERS regs) {
@@ -196,6 +216,20 @@ extern "C" void ISR_irqHandler(REGISTERS regs) {
 extern "C" void ISR_ExceptionHandler(REGISTERS regs) {
     Logger.warning("exception");
     ExceptionHandler(regs);
+}
+
+extern "C" void C_interruptHandler(REGISTERS regs) {
+    //handle interupt
+
+    panic("intterupt");
+
+    ISR handler = (ISR)g_ints[regs.int_no];
+    handler(&regs);
+
+    //exit interupt
+    if ( regs.int_no > 31 && regs.int_no < (32 + 15 + 1) ) {
+        end_interrupt(regs.int_no);
+    }
 }
 
 extern intDriver IntDriver = intDriver();
