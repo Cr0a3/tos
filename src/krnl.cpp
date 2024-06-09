@@ -20,6 +20,6 @@ extern "C" {
         // raise breakpoint exception
         asm volatile("int $0x3");
 
-        Logger.log("back in kernel");
+        Logger.info("back in kernel");
     }
 }

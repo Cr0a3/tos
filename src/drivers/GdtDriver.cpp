@@ -45,15 +45,16 @@ void gdtDriver::init() {
     asm volatile("lgdt %0" : : "m"(gdt_ptr));
 
     asm volatile(
-        "movw $0x10, %ax\n\t"
-        "movw %ax, %ds\n\t"
-        "movw %ax, %es\n\t"
-        "movw %ax, %fs\n\t"
-        "movw %ax, %gs\n\t"
-        "movw %ax, %ss\n\t"
-        "jmp 0f\n\t"
+        "mov %0, %%ds\n\t"
+        "mov %0, %%es\n\t"
+        "mov %0, %%fs\n\t"
+        "mov %0, %%gs\n\t"
+        "mov %0, %%ss\n\t"
+        "pushq $0x8\n\t"
+        "pushq $0f\n\t"
+        "lretq\n"
         "0:"
-        "nop"
+        :: "r"(0x10)
     );
 
 #ifdef DEBUG

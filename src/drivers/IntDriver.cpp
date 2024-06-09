@@ -56,8 +56,8 @@ void intDriver::init() {
     IoDriver.outb(0xa1, 0x01);
 
     // activate all irqs
-    IoDriver.outb(0x21, 0x0);
-    IoDriver.outb(0xa1, 0x0);
+    //IoDriver.outb(0x21, 0x0);
+    //IoDriver.outb(0xa1, 0x0);
 #else
     panic("interrupt system just work with pic");
 #endif
@@ -126,6 +126,7 @@ void intDriver::init() {
     }
     
     asm volatile( "lidt (%%rax)" : : "a"(&idtr));
+    asm volatile("sti");
 
 #ifdef DEBUG
     Logger.sucess("inited interupt system");
@@ -190,7 +191,10 @@ extern "C" void ISR_irqHandler(REGISTERS regs) {
     IrqHandler(regs);
 }
 
+#include <Logger.hpp>
+
 extern "C" void ISR_ExceptionHandler(REGISTERS regs) {
+    Logger.warning("exception");
     ExceptionHandler(regs);
 }
 
